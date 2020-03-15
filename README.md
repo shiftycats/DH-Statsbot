@@ -10,6 +10,6 @@ The text files are arranged like so:
 
 [ROID]
 
-Some text files will also feature a username at the top, which is a remnant of a previous version that used to print usernames to the text file. I removed this as it was causing problems when users with emojis in their names attempted to add themselves to the bot. A user can be found by their discord ID by simply searching 'From: [ID]' in the discord search bar.
+Some text files will also feature a username at the top, which is a remnant of a previous version that used to print usernames to the text file. I removed this as it was causing problems when users with emojis in their names attempted to add themselves to the bot. A user can be found by their discord ID by searching 'From: [ID]' in the discord search bar.
 
 This is a one-time command and the user does not have to do it ever again. The bot will simply refer to this file whenever the '!stats' command is written in the discord #statistics channel. The bot simply refers to a stats website to get it's user information using the provided roid.
