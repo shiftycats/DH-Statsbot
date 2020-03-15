@@ -15,6 +15,7 @@ Some text files will also feature a username at the top, which is a remnant of a
 This is a one-time command and the user does not have to do it ever again. The bot will refer to this file whenever the '!stats' command is written in the discord #statistics channel. The bot refers to a stats website to get it's user information using the provided roid.
 
 TODO:
+(Finished features will be crossed-out)
 * Rewrite the user-handling system so everything is written into one file instead of many seperate files.
 * Basic leaderboard commands for each stat. Eg. "Most Kills", "Most Deaths", etc.
 * A command to display to the user their most-killed player / vice-versa.
