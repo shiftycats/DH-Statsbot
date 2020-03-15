@@ -5,7 +5,9 @@ The stats bot simply requires a user to provide their ROID along with the '!addm
 The bot then creates a new text file in the Users/ directory using their discord ID as the name.
 
 The text files are arranged like so:
+
 [Discord ID]
+
 [ROID]
 
 Some text files will also feature a username at the top, which is a remnant of a previous version that used to print usernames to the text file. I removed this as it was causing problems when users with emojis in their names attempted to add themselves to the bot. A user can be found by their discord ID by simply searching 'From: [ID]' in the discord search bar.
