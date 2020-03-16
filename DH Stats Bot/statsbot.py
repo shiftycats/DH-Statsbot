@@ -18,8 +18,14 @@ async def on_ready():
 # Function for adding users into the users directory and handling stats.
 @client.event
 async def on_message(message):
-    user_dir = os.listdir("Users/")
     user_id = str(message.author.id)
+
+    user_dict = {}
+
+    with open("users.txt") as usersfile:
+        for line in usersfile:
+            (u_id, u_roid) = line.split()
+            user_dict[u_id] = u_roid
 
     if message.author == client.user:
         return
@@ -28,20 +34,22 @@ async def on_message(message):
     elif "!addme" in message.content.lower():
 
         if len(message.content) < 24:
-            await message.channel.send("Please provide your ROID along with the command.")
+            await message.channel.send("Please provide your ROID" \
+                                        " along with the command.")
 
         elif len(message.content) == 24:
             roid = str(message.content[7:24])
 
-            if user_id + ".txt" in user_dir:
-                await message.channel.send("You already exist in my database! No need to do it again!")
-                
-            
-            elif user_id + ".txt" not in user_dir:
-                userfile = open("Users/" + str(message.author.id) + ".txt", "a")
-                userfile.write(str(message.author.id))
-                userfile.write("\n")
+            if user_id in user_dict:
+                await message.channel.send("You already exist in my database!" \
+                                            " No need to do it again!")
+
+            elif user_id not in user_dict:
+                userfile = open("users.txt", "a")
+                userfile.write(user_id)
+                userfile.write(" ")
                 userfile.write(roid)
+                userfile.write("\n")
                 userfile.close()
 
                 await message.channel.send("You have been added.")
@@ -52,12 +60,11 @@ async def on_message(message):
     # Gets a player's stats from the website and displays them to the user.
     elif "!stats" in message.content.lower():
 
-        if user_id + ".txt" in user_dir:
-            current_user = open("Users/" + user_id + ".txt", "r")
-            user_roid = current_user.readlines()[-1]
-            current_user.close()
+        if user_id in user_dict:
+            user_roid = user_dict[user_id]
 
-            stats_url = "http://api.darklightgames.com/players/" + user_roid + "/?format=json"
+            stats_url = "http://api.darklightgames.com/players/" \
+                         + user_roid + "/?format=json"
 
             user_data = urllib.request.urlopen(stats_url)
             stats_contents = user_data.read()
@@ -73,9 +80,11 @@ async def on_message(message):
 
             await message.channel.send(stats)
 
-        elif user_id + ".txt" not in user_dir:
-            await message.channel.send("I couldn't find you in my storage!\nPlease make sure you added yourself first!")
-            await message.channel.send("Use `!commands` to see a list of commands.")
+        elif user_id not in user_dict:
+            await message.channel.send("I couldn't find you in my storage!\n" \
+                                        "Please make sure you added yourself first!")
+            await message.channel.send("Use `!commands`" \
+                                        " to see a list of commands.")
 
 
     elif "!commands" in message.content.lower():
