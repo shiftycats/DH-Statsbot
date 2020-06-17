@@ -146,7 +146,8 @@ async def on_message(message):
                 '"DHShellHE105mmDamageType"'        : "105mm HE",
                 '"DHShellHE37mmDamageType"'         : "37mm HE",
                 '"DHShellHE50mmATDamageType"'       : "50mm HEAT",
-                '"DHShellAPGunImpactDamageType"'    : "AP Shell"
+                '"DHShellAPGunImpactDamageType"'    : "AP Shell",
+                '"DHShellImpactDamageType"'         : "Shell Impact"
             }
 
             # Reads a user's top damage type and associates it with a weapon name
