@@ -174,9 +174,49 @@ async def on_message(message):
         elif user_id not in user_dict:
             await message.channel.send("You do not exist in my storage, make sure you added yourself first.")
             await message.channel.send("Use `!commands` to see a list of commands.")
+    
+    elif "!ffstats" in message.content.lower():
+        if user_id in user_dict:
+            user_roid = user_dict[user_id]
+
+            stats_url = "http://api.darklightgames.com/players/" + user_roid + "/?format=json"
+
+            stats_data = urllib.request.urlopen(stats_url)
+            stats_contents = stats_data.read()
+            load_stats = json.loads(stats_contents)
+
+            ff_kills = "**FF Kills:** " + str(load_stats["ff_kills"]) + " "
+            
+            ff_deaths = "| **FF Deaths:** " + str(load_stats["ff_deaths"]) + " "
+
+            raw_tk_ratio = int(load_stats["ff_kills"]) / int(load_stats["kills"])
+
+            raw_death_ratio = int(load_stats["ff_deaths"]) / int(load_stats["deaths"])
+
+            # Calculate teamkill and teamkill-death average.
+            tk_rate = int(load_stats["kills"]) / int(load_stats["ff_kills"])
+            death_rate = int(load_stats["deaths"]) / int(load_stats["ff_deaths"])
+
+            # Move decimal-points over 2 places.
+            tk_ratio = raw_tk_ratio * 10 * 10
+            death_ratio = raw_death_ratio * 10 * 10
+
+            formatted_tk_rate = "*(1 TK per {:.0f}*".format(tk_rate) + " *kills)* "
+            formatted_death_rate = "*(Teamkilled once every {:.0f}*".format(death_rate) + " *deaths)*"
+
+            formatted_tk_ratio = "| **TK Ratio:** {:.2f}".format(tk_ratio) + "% " + formatted_tk_rate
+
+            formatted_death_ratio = "| **Death Ratio:** {:.2f}".format(death_ratio) + "% " + formatted_death_rate
+
+            stats = " " + ff_kills + ff_deaths + formatted_tk_ratio + formatted_death_ratio
+
+            await message.channel.send(message.author.mention + stats)
         
     elif "!commands" in message.content.lower():
-        await message.channel.send("https://i.imgur.com/79GCqL1.png")
+        await message.channel.send("`!addme [ROID] - Adds you to the bot's database. 1-time command.`")
+        await message.channel.send("`!stats - Displays your kills, deaths, and other common stats.`")
+        await message.channel.send("`!ffstats - Displays your friendly-fire stats.`")
+        await message.channel.send("`!commands - Displays this list of commands.`")
 
 
 client.run(TOKEN)
