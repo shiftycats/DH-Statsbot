@@ -1,7 +1,7 @@
 import os
+import json
 import discord
 import urllib.request
-import json
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -201,7 +201,7 @@ async def on_message(message):
             tk_ratio = raw_tk_ratio * 10 * 10
             death_ratio = raw_death_ratio * 10 * 10
 
-            formatted_tk_rate = "*(1 TK per {:.0f}*".format(tk_rate) + " *kills)* "
+            formatted_tk_rate = "*(1 TK per {:.0f}*".format(tk_rate) + " *kills)*  "
             formatted_death_rate = "*(Teamkilled once every {:.0f}*".format(death_rate) + " *deaths)*"
 
             formatted_tk_ratio = "| **TK Ratio:** {:.2f}".format(tk_ratio) + "% " + formatted_tk_rate
