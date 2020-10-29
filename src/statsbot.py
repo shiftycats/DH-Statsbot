@@ -354,57 +354,61 @@ async def on_message(message):
             "zhitomir_1941"           : "DH-WIP_Zhitomir1941_Push"
         }
 
-        map_string = map_dict[selected_map]
+        if selected_map in map_dict:
+            map_string = map_dict[selected_map]
 
-        # Open the selected map's data and parse it.
-        map_url = "http://46.101.44.19/maps/" + map_string + "/summary/"
-        map_data = urllib.request.urlopen(map_url)
-        map_data_contents = map_data.read()
-        load_map_data = json.loads(map_data_contents)
+            # Open the selected map's data and parse it.
+            map_url = "http://46.101.44.19/maps/" + map_string + "/summary/"
+            map_data = urllib.request.urlopen(map_url)
+            map_data_contents = map_data.read()
+            load_map_data = json.loads(map_data_contents)
 
-        # Define json objects for easier use.
-        axis_w = int(load_map_data["axis_wins"])
-        axis_d = int(load_map_data["axis_deaths"])
-        allied_w = int(load_map_data["allied_wins"])
-        allied_d = int(load_map_data["allied_deaths"])
+            # Define json objects for easier use.
+            axis_w = int(load_map_data["axis_wins"])
+            axis_d = int(load_map_data["axis_deaths"])
+            allied_w = int(load_map_data["allied_wins"])
+            allied_d = int(load_map_data["allied_deaths"])
 
-        axis_deaths = "**Axis Deaths:** " + str(axis_d) + " "
-        allied_deaths = "| **Allied Deaths:** " + str(allied_d)
-        axis_wins = "| **Axis Wins:** " + str(axis_w) + "  "
-        allied_wins = "  **Allied Wins:** " + str(allied_w) + " "
+            axis_deaths = "**Axis Deaths:** " + str(axis_d) + " "
+            allied_deaths = "| **Allied Deaths:** " + str(allied_d)
+            axis_wins = "| **Axis Wins:** " + str(axis_w) + "  "
+            allied_wins = "  **Allied Wins:** " + str(allied_w) + " "
 
-        number_line = ["«", "-", "-", "-", "-",
-                       "-", "-", "-", "-", "-",
-                       "-", "-", "-", "-", "-",
-                       "-", "-", "-", "-", "-",
-                       "»"]
+            number_line = ["«", "-", "-", "-", "-",
+                        "-", "-", "-", "-", "-",
+                        "-", "-", "-", "-", "-",
+                        "-", "-", "-", "-", "-",
+                        "»"]
 
-        total_games = axis_w + allied_w
+            total_games = axis_w + allied_w
 
-        # Compare the map's axis vs allied wins.
-        # Draw a small line-infographic weighted towards the larger winrate.
-        if axis_w > allied_w:
-            rough_percentage = axis_w / total_games
-            win_percentage = round(rough_percentage, 2)
+            # Compare the map's axis vs allied wins.
+            # Draw a small line-infographic weighted towards the larger winrate.
+            if axis_w > allied_w:
+                rough_percentage = axis_w / total_games
+                win_percentage = round(rough_percentage, 2)
 
-            marker_shift = 20 * win_percentage
+                marker_shift = 20 * win_percentage
 
-            marker_position = 20 - marker_shift
+                marker_position = 20 - marker_shift
 
-            number_line.insert(int(marker_position), "o")
-            win_infographic = ''.join(number_line)
-        elif axis_w < allied_w:
-            rough_percentage = allied_w / total_games
-            win_percentage = round(rough_percentage, 2)
+                number_line.insert(int(marker_position), "o")
+                win_infographic = ''.join(number_line)
+            elif axis_w < allied_w:
+                rough_percentage = allied_w / total_games
+                win_percentage = round(rough_percentage, 2)
 
-            marker_shift = 20 * win_percentage
+                marker_shift = 20 * win_percentage
 
-            number_line.insert(int(marker_shift), "o")
-            win_infographic = ''.join(number_line)
+                number_line.insert(int(marker_shift), "o")
+                win_infographic = ''.join(number_line)
 
-        composed_map_message = axis_deaths + axis_wins + win_infographic + allied_wins + allied_deaths
+            composed_map_message = axis_deaths + axis_wins + win_infographic + allied_wins + allied_deaths
 
-        await message.channel.send(composed_map_message)
+            await message.channel.send(composed_map_message)
+        
+        elif selected_map not in map_dict:
+            await message.channel.send("I do not have that map included, sorry.")
     
 
     # ---------------------------------------------------------------------------------------
