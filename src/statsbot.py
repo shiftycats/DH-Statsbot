@@ -1,6 +1,9 @@
 import os
 import json
 import discord
+import requests
+from bs4 import BeautifulSoup
+from tabulate import tabulate
 import urllib.request
 from dotenv import load_dotenv
 
@@ -598,7 +601,43 @@ async def on_message(message):
         wareffort_message = total_axis_deaths + total_axis_wins + win_infographic + total_allied_wins + total_allied_deaths
 
         await message.channel.send(wareffort_message)
+    
+
+    # -------------------------------------------------------------------------------------------------------
+    # SERVER-POP SECTION
+    # This section fetches server population data for displaying current server-population easily in discord.
+    # This uses web-scraping on the gametracker DH webpage, as the darklight games API does not provide this
+    # and gametracker is the only website I know of that has currently working server lists for DH.
+    # -------------------------------------------------------------------------------------------------------
+    elif "!servers" in message.content.lower():
+        # Parse the DH gametracker page HTML.
+        gametracker_url = "https://www.gametracker.com/search/rordh/"
+        gametracker_raw = requests.get(gametracker_url)
+
+        soup = BeautifulSoup(gametracker_raw.content, "html.parser")
+
+        table = soup.find("table", attrs={"class":"table_lst table_lst_srs"})
+        rows = table.find_all("tr")
+
+        # Format the official DH servers into a list.
+        table_data = []
+        for td in rows[1].find_all("td"):
+            table_data.append(td.text.strip())
+        for td in rows[2].find_all("td"):
+            table_data.append(td.text.strip())
+        for td in rows[3].find_all("td"):
+            table_data.append(td.text.strip())
         
+        # Format the data we want (server name, pop, map) into a new list for printing.
+        formatted_table = [[table_data[2], table_data[3], table_data[7]],
+                           [table_data[10], table_data[11], table_data[15]],
+                           [table_data[18], table_data[19], table_data[23]]
+        ]
+
+        formatted_output = tabulate(formatted_table, tablefmt="plain")
+
+        await message.channel.send("```" + formatted_output + "```")
+
     elif "!commands" in message.content.lower():
         await message.channel.send("`!addme [ROID] - Adds you to the bot's database. 1-time command.`")
         await message.channel.send("`!stats - Displays your kills, deaths, and other common stats.`")
