@@ -644,6 +644,7 @@ async def on_message(message):
         await message.channel.send("`!ffstats - Displays your friendly-fire stats.`")
         await message.channel.send("`!map stats [map_name] - Displays the stats relating to a specific map.`")
         await message.channel.send("`!wareffort - Displays the total overall statistical progress of the war.`")
+        await message.channel.send("`!servers - Fetch real-time server pop counts and the map being played.`")
 
 
 client.run(TOKEN)
