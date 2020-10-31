@@ -1,0 +1,65 @@
+This is simply a text file to keep-track of versions and what features were added or changed in each one.
+
+(March 15th, 2020) V1.0.0 -- First public version, implimented into the DH Discord in the #statistics channel.
+    [ADDED]
+    * General stats tracking (kills, deaths, kd/r, FF-kills, FF-deaths.)
+
+
+(March 15th, 2020) V1.0.1 -- Rewrote the user-storage system to be 1 text file instead of each user being stored in their own individual text file.
+    [CHANGED]
+    * users.txt (Users stored in 1 file instead of many)
+
+
+(March 16th, 2020) V1.1.0 -- Added a "favorite weapon" stat, removed FF stats.
+    [ADDED]
+    * Favorite weapon stat (Displayed in general stats.)
+    [REMOVED]
+    * Friendly-fire stats (General-stats message was too long.)
+
+
+(June 17th, 2020) V1.1.1 -- Added a missing damage type.
+    [CHANGED]
+    * Added damage-type dictionary entries for shell-impacts as some users had this as their "favorite weapon."
+
+
+(September 27th, 2020) V1.2.0 -- Readded Friendly-fire stats and rewrote the "!commands" command.
+    [ADDED]
+    * Friendly-fire stats were readded after being removed in March under a new command.
+    [CHANGED]
+    * "!commands" now displays a proper text menu of commands rather than simply pasting an image of them.
+
+
+(October 29th, 2020) V1.3.0 - Added map-statistic tracking and overall "war-progress" tracking.
+    [ADDED]
+    * Map-statistic tracking (Total map-deaths and team-wins are displayed for a specific map.)
+    * War-progress tracking (Total deaths for all recorded games on the stats site and wins are displayed.)
+
+
+(October 29th, 2020) V1.3.1 -- Added a feedback-message when a map isn't included in a user's input.
+    [CHANGED]
+    * Users will now get a feedback-message when the map they wish to see the stats of is not included.
+
+
+(October 30th, 2020) V1.4.0 -- Added server-population tracking.
+    [ADDED]
+    * Users can now see the real-time server-pop and what map is being played on each server.
+
+
+(October 30th, 2020) V1.4.1 -- Included the new server command in "!commands".
+    [CHANGED]
+    * Included the new "!servers" command to be displayed when "!commands" is called.
+
+
+(October 31st, 2020) V1.4.2 -- Fixed a map-stats display error.
+    [CHANGED]
+    * Fixed an error that would appear when a map had equal wins for both teams.
+
+
+(October 31st, 2020) V1.4.3 -- Rewrote "!commands" to reduce the message clog when called.
+    [CHANGED]
+    * Rewrote "!commands" to help reduce the message size when "!commands" was called taking advantage of Discord's code-block formatting.
+
+
+(October 31st, 2020) V1.4.4 -- Reorganized how the internal map-list is used.
+    [CHANGED]
+    * Rewrote some code to utilize 1 map dictionary instead of 2 for "!map stats" and "!wareffort".
