@@ -381,7 +381,7 @@ async def on_message(message):
                         "-", "-", "-", "-", "-",
                         "-", "-", "-", "-", "-",
                         "-", "-", "-", "-", "-",
-                        "»"]
+                        " ", "»"]
 
             total_games = axis_w + allied_w
 
@@ -396,7 +396,6 @@ async def on_message(message):
                 marker_position = 20 - marker_shift
 
                 number_line.insert(int(marker_position), "o")
-                win_infographic = ''.join(number_line)
             elif axis_w < allied_w:
                 rough_percentage = allied_w / total_games
                 win_percentage = round(rough_percentage, 2)
@@ -404,7 +403,10 @@ async def on_message(message):
                 marker_shift = 20 * win_percentage
 
                 number_line.insert(int(marker_shift), "o")
-                win_infographic = ''.join(number_line)
+            elif axis_w == allied_w:
+                number_line.insert(10, "o")
+            
+            win_infographic = ''.join(number_line)
 
             composed_map_message = axis_deaths + axis_wins + win_infographic + allied_wins + allied_deaths
 
@@ -570,7 +572,7 @@ async def on_message(message):
                        "-", "-", "-", "-", "-",
                        "-", "-", "-", "-", "-",
                        "-", "-", "-", "-", "-",
-                       "»"]       
+                       " ", "»"]       
 
         axis_wins_sum = sum(axis_wins_dict.values())
         allied_wins_sum = sum(allied_wins_dict.values())
@@ -583,7 +585,6 @@ async def on_message(message):
 
             marker_position = 20 - marker_shift
             number_line.insert(int(marker_position), "o")
-            win_infographic = ''.join(number_line)
         elif axis_wins_sum < allied_wins_sum:
             rough_percentile = allied_wins_sum / (axis_wins_sum + allied_wins_sum)
             win_percentage = round(rough_percentile, 2)
@@ -591,7 +592,10 @@ async def on_message(message):
             marker_shift = 20 * win_percentage
 
             number_line.insert(int(marker_shift), "o")
-            win_infographic = ''.join(number_line)
+        elif axis_wins_sum == allied_wins_sum:
+            number_line.insert(10, "o")
+        
+        win_infographic = ''.join(number_line)
         
         total_axis_deaths = "**Axis Deaths:** " + str(sum(axis_death_dict.values())) + " "
         total_allied_deaths = "| **Allied Deaths:** " + str(sum(allied_death_dict.values()))
