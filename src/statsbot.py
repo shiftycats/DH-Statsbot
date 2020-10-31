@@ -242,7 +242,7 @@ async def on_message(message):
             "brecourt"                : "DH-Brecourt_Push",
             "bridgehead"              : "DH-Bridgehead_Advance",
             "caen"                    : "DH-Caen_Advance",
-            "cambes_en_plaine"        : "DH-Cambes_En_Plaine_Clash",
+            "cambes_en_plaine"        : "DH-Cambes-En-Plaine_Clash",
             "carentan_causeway"       : "DH-Carentan_Causeway_Push",
             "carentan"                : "DH-Carentan_Push",
             "carpiquet_airfield"      : "DH-Carpiquet_Airfield_Advance",
@@ -381,7 +381,7 @@ async def on_message(message):
                         "-", "-", "-", "-", "-",
                         "-", "-", "-", "-", "-",
                         "-", "-", "-", "-", "-",
-                        " ", "»"]
+                        "»"]
 
             total_games = axis_w + allied_w
 
@@ -572,7 +572,7 @@ async def on_message(message):
                        "-", "-", "-", "-", "-",
                        "-", "-", "-", "-", "-",
                        "-", "-", "-", "-", "-",
-                       " ", "»"]       
+                       "»"]       
 
         axis_wins_sum = sum(axis_wins_dict.values())
         allied_wins_sum = sum(allied_wins_dict.values())
@@ -643,12 +643,15 @@ async def on_message(message):
         await message.channel.send("```" + formatted_output + "```")
 
     elif "!commands" in message.content.lower():
-        await message.channel.send("`!addme [ROID] - Adds you to the bot's database. 1-time command.`")
-        await message.channel.send("`!stats - Displays your kills, deaths, and other common stats.`")
-        await message.channel.send("`!ffstats - Displays your friendly-fire stats.`")
-        await message.channel.send("`!map stats [map_name] - Displays the stats relating to a specific map.`")
-        await message.channel.send("`!wareffort - Displays the total overall statistical progress of the war.`")
-        await message.channel.send("`!servers - Fetch real-time server pop counts and the map being played.`")
+        addme_cmd = "!addme (ROID)         - Adds you to the bot's database, 1-time command."
+        stats_cmd = "!stats                - Displays your general stats."
+        ffstats_cmd = "!ffstats              - Displays your friendly-fire stats."
+        mapstats_cmd = "!map stats (map_name) - Displays stats for a given map"
+        wareffort_cmd = "!wareffort            - Displays the progress of the war."
+        servers_cmd = "!servers              - Displays real-time server-pop and the map being played."
 
+        cmds_message = "```" + addme_cmd + "\n" + stats_cmd + "\n" + ffstats_cmd + "\n" + mapstats_cmd + "\n" + wareffort_cmd + "\n" + servers_cmd + "```"
+
+        await message.channel.send(cmds_message)
 
 client.run(TOKEN)
