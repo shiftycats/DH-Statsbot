@@ -63,3 +63,8 @@ This is simply a text file to keep-track of versions and what features were adde
 (October 31st, 2020) v1.4.4 -- Reorganized how the internal map-list is used.
     [CHANGED]
     * Rewrote some code to utilize 1 map dictionary instead of 2 for "!map stats" and "!wareffort".
+
+
+(November 1st, 2020) v1.5.0 -- Total playercount now appears as the bot's server status-message.
+    [ADDED]
+    * Total playercount added up from all 3 official servers and displayed as the bot's status-message on the discord sidebar.
