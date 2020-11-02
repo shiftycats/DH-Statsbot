@@ -2,7 +2,6 @@ import os
 import json
 import discord
 import requests
-import asyncio
 from bs4 import BeautifulSoup
 from tabulate import tabulate
 import urllib.request
@@ -159,14 +158,17 @@ def pingServers():
     return table_data
 
 
+# Task-loop to update the bot's status-message with the current playercount.
 @tasks.loop(minutes=2)
 async def statusUpdate():
     table_data = pingServers()
 
+    # Extract the playercount integers from table_data.
     count_1 = table_data[3]
     count_2 = table_data[11]
     count_3 = table_data[19]
 
+    # Cut-off the uneeded "/64" part.
     component_1 = str(count_1[:-3])
     component_2 = str(count_2[:-3])
     component_3 = str(count_3[:-3])
@@ -174,8 +176,6 @@ async def statusUpdate():
     total_playercount = int(component_1) + int(component_2) + int(component_3)
 
     status_message = str(total_playercount) + " players in servers"
-
-    print(status_message)
 
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status_message))
 
