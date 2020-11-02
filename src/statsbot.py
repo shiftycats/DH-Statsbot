@@ -2,10 +2,12 @@ import os
 import json
 import discord
 import requests
+import asyncio
 from bs4 import BeautifulSoup
 from tabulate import tabulate
 import urllib.request
 from dotenv import load_dotenv
+from discord.ext import tasks
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -133,6 +135,50 @@ map_dict = {
         "winter_stalemate"        : "DH-WIP_Winter_Stalemate_Clash",
         "zhitomir_1941"           : "DH-WIP_Zhitomir1941_Push"
     }
+
+
+# Ping the gametracker webpage for server-info.
+def pingServers():
+    gametracker_url = "https://www.gametracker.com/search/rordh/"
+    gametracker_raw = requests.get(gametracker_url)
+
+    soup = BeautifulSoup(gametracker_raw.content, "html.parser")
+
+    table = soup.find("table", attrs={"class":"table_lst table_lst_srs"})
+    rows = table.find_all("tr")
+
+    # Format the official DH servers into a list.
+    table_data = []
+    for td in rows[1].find_all("td"):
+        table_data.append(td.text.strip())
+    for td in rows[2].find_all("td"):
+        table_data.append(td.text.strip())
+    for td in rows[3].find_all("td"):
+        table_data.append(td.text.strip())
+
+    return table_data
+
+
+@tasks.loop(minutes=2)
+async def statusUpdate():
+    table_data = pingServers()
+
+    count_1 = table_data[3]
+    count_2 = table_data[11]
+    count_3 = table_data[19]
+
+    component_1 = str(count_1[:-3])
+    component_2 = str(count_2[:-3])
+    component_3 = str(count_3[:-3])
+
+    total_playercount = int(component_1) + int(component_2) + int(component_3)
+
+    status_message = str(total_playercount) + " players in servers"
+
+    print(status_message)
+
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status_message))
+
 
 # Display message to the terminal when bot is connected to Discord
 @client.event
@@ -493,24 +539,8 @@ async def on_message(message):
     # and gametracker is the only website I know of that has currently working server lists for DH.
     # -------------------------------------------------------------------------------------------------------
     elif "!servers" in message.content.lower():
-        # Parse the DH gametracker page HTML.
-        gametracker_url = "https://www.gametracker.com/search/rordh/"
-        gametracker_raw = requests.get(gametracker_url)
-
-        soup = BeautifulSoup(gametracker_raw.content, "html.parser")
-
-        table = soup.find("table", attrs={"class":"table_lst table_lst_srs"})
-        rows = table.find_all("tr")
-
-        # Format the official DH servers into a list.
-        table_data = []
-        for td in rows[1].find_all("td"):
-            table_data.append(td.text.strip())
-        for td in rows[2].find_all("td"):
-            table_data.append(td.text.strip())
-        for td in rows[3].find_all("td"):
-            table_data.append(td.text.strip())
-        
+        table_data = pingServers()
+       
         # Format the data we want (server name, pop, map) into a new list for printing.
         formatted_table = [[table_data[2], table_data[3], table_data[7]],
                            [table_data[10], table_data[11], table_data[15]],
@@ -520,6 +550,7 @@ async def on_message(message):
         formatted_output = tabulate(formatted_table, tablefmt="plain")
 
         await message.channel.send("```" + formatted_output + "```")
+
 
     elif "!commands" in message.content.lower():
         addme_cmd = "!addme (ROID)         - Adds you to the bot's database, 1-time command."
@@ -532,5 +563,7 @@ async def on_message(message):
         cmds_message = "```" + addme_cmd + "\n" + stats_cmd + "\n" + ffstats_cmd + "\n" + mapstats_cmd + "\n" + wareffort_cmd + "\n" + servers_cmd + "```"
 
         await message.channel.send(cmds_message)
+
+    statusUpdate.start()
 
 client.run(TOKEN)
