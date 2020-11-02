@@ -552,7 +552,9 @@ async def on_message(message):
         # Format the data we want (server name, pop, map) into a new list for printing.
         formatted_table = [[table_data[2], table_data[3], table_data[7]],
                            [table_data[10], table_data[11], table_data[15]],
-                           [table_data[18], table_data[19], table_data[23]]
+                           [table_data[18], table_data[19], table_data[23]],
+                           [table_data[26], table_data[27], table_data[31]],
+                           [table_data[34], table_data[35], table_data[39]]
         ]
 
         formatted_output = tabulate(formatted_table, tablefmt="plain")
