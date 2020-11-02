@@ -1,5 +1,4 @@
 # DH-Statsbot
-Version 1.5.0
 
 DH-Statsbot is my project to provide a simple-to-use and quick text interface that mirrors the statistics as seen on the official Darkest Hour stats website.
 
