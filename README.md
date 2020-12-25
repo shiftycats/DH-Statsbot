@@ -19,4 +19,6 @@ The current external modules used are:
 * BeautifulSoup
 * Tabulate
 
-Statsbot was my first real programming project. As a result, the quality of my code is all over the place, mainly in the gutter for 99% of it. I have thought about rewriting the entirety of statsbot in a different language like Rust, or just tearing it down and starting from scratch once again, but it works and it hasn't run into any slowdowns that I can tell as of yet, so I will continue adding to it for the time being. If you have any questions you can contact me mainly on Discord @≡Sugardust≡#8027.
+I maintain and host statsbot on my computer for the Darkest Hour discord. No responsibility should fall to the DH developers or Darklight Games should statsbot stop working, this is all my personal project for the community.
+
+Statsbot was my first real programming project. As a result, the quality of my code is all over the place, mainly in the gutter for 99% of it. I have thought about rewriting the entirety of statsbot in a different language like Rust, or just tearing it down and starting from scratch once again, but it works and it hasn't run into any slowdowns that I can tell as of yet, so I will continue adding to it for the time being. If you have any questions you can contact me mainly on Discord @Chaussettes#8027.
