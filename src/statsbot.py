@@ -471,74 +471,74 @@ async def on_message(message):
             await message.channel.send("I do not have that map included, sorry.")
     
 
-    # ---------------------------------------------------------------------------------------
-    # WAR-EFFORT STATISTICS
-    # Tracks the total status of the "war."
-    # EX: Total kills for all maps and which faction is winning based on individual map wins.
-    # ---------------------------------------------------------------------------------------
-    elif "!wareffort" in message.content.lower():
-        await message.channel.send("Calculating the total progress of the war, please wait up to 1 minute.", delete_after=1)
+    # # ---------------------------------------------------------------------------------------
+    # # WAR-EFFORT STATISTICS
+    # # Tracks the total status of the "war."
+    # # EX: Total kills for all maps and which faction is winning based on individual map wins.
+    # # ---------------------------------------------------------------------------------------
+    # elif "!wareffort" in message.content.lower():
+    #     await message.channel.send("Calculating the total progress of the war, please wait up to 1 minute.", delete_after=1)
 
-        # Dictionaries for storing all values from all maps for arithmetic-usage.
-        axis_death_dict = {}
-        allied_death_dict = {}
-        axis_wins_dict = {}
-        allied_wins_dict = {}
+    #     # Dictionaries for storing all values from all maps for arithmetic-usage.
+    #     axis_death_dict = {}
+    #     allied_death_dict = {}
+    #     axis_wins_dict = {}
+    #     allied_wins_dict = {}
 
-        # Loop through the map-list and generate the dicts + messages.
-        for idx, element in enumerate(map_dict.values(), 1):
-            map_url = "http://46.101.44.19/maps/" + element + "/summary/"
-            map_data = urllib.request.urlopen(map_url)
-            map_data_contents = map_data.read()
-            load_map_data = json.loads(map_data_contents)
+    #     # Loop through the map-list and generate the dicts + messages.
+    #     for idx, element in enumerate(map_dict.values(), 1):
+    #         map_url = "http://46.101.44.19/maps/" + element + "/summary/"
+    #         map_data = urllib.request.urlopen(map_url)
+    #         map_data_contents = map_data.read()
+    #         load_map_data = json.loads(map_data_contents)
 
-            axis_deaths = int(load_map_data["axis_deaths"])
-            allied_deaths = int(load_map_data["allied_deaths"])
-            axis_wins = int(load_map_data["axis_wins"])
-            allied_wins = int(load_map_data["allied_wins"])
+    #         axis_deaths = int(load_map_data["axis_deaths"])
+    #         allied_deaths = int(load_map_data["allied_deaths"])
+    #         axis_wins = int(load_map_data["axis_wins"])
+    #         allied_wins = int(load_map_data["allied_wins"])
 
-            axis_death_dict[idx] = axis_deaths
-            allied_death_dict[idx] = allied_deaths
-            axis_wins_dict[idx] = axis_wins
-            allied_wins_dict[idx] = allied_wins
+    #         axis_death_dict[idx] = axis_deaths
+    #         allied_death_dict[idx] = allied_deaths
+    #         axis_wins_dict[idx] = axis_wins
+    #         allied_wins_dict[idx] = allied_wins
  
-        number_line = ["«", "-", "-", "-", "-",
-                       "-", "-", "-", "-", "-",
-                       "-", "-", "-", "-", "-",
-                       "-", "-", "-", "-", "-",
-                       "»"]       
+    #     number_line = ["«", "-", "-", "-", "-",
+    #                    "-", "-", "-", "-", "-",
+    #                    "-", "-", "-", "-", "-",
+    #                    "-", "-", "-", "-", "-",
+    #                    "»"]       
 
-        axis_wins_sum = sum(axis_wins_dict.values())
-        allied_wins_sum = sum(allied_wins_dict.values())
+    #     axis_wins_sum = sum(axis_wins_dict.values())
+    #     allied_wins_sum = sum(allied_wins_dict.values())
 
-        if axis_wins_sum > allied_wins_sum:
-            rough_percentile = axis_wins_sum / (axis_wins_sum + allied_wins_sum)
-            win_percentage = round(rough_percentile, 2)
+    #     if axis_wins_sum > allied_wins_sum:
+    #         rough_percentile = axis_wins_sum / (axis_wins_sum + allied_wins_sum)
+    #         win_percentage = round(rough_percentile, 2)
 
-            marker_shift = 20 * win_percentage
+    #         marker_shift = 20 * win_percentage
 
-            marker_position = 20 - marker_shift
-            number_line.insert(int(marker_position), "o")
-        elif axis_wins_sum < allied_wins_sum:
-            rough_percentile = allied_wins_sum / (axis_wins_sum + allied_wins_sum)
-            win_percentage = round(rough_percentile, 2)
+    #         marker_position = 20 - marker_shift
+    #         number_line.insert(int(marker_position), "o")
+    #     elif axis_wins_sum < allied_wins_sum:
+    #         rough_percentile = allied_wins_sum / (axis_wins_sum + allied_wins_sum)
+    #         win_percentage = round(rough_percentile, 2)
 
-            marker_shift = 20 * win_percentage
+    #         marker_shift = 20 * win_percentage
 
-            number_line.insert(int(marker_shift), "o")
-        elif axis_wins_sum == allied_wins_sum:
-            number_line.insert(10, "o")
+    #         number_line.insert(int(marker_shift), "o")
+    #     elif axis_wins_sum == allied_wins_sum:
+    #         number_line.insert(10, "o")
         
-        win_infographic = ''.join(number_line)
+    #     win_infographic = ''.join(number_line)
         
-        total_axis_deaths = "**Axis Deaths:** " + str(sum(axis_death_dict.values())) + " "
-        total_allied_deaths = "| **Allied Deaths:** " + str(sum(allied_death_dict.values()))
-        total_axis_wins = "| **Axis Wins:** " + str(axis_wins_sum) + "  "
-        total_allied_wins = "  **Allied Wins:** " + str(allied_wins_sum) + " "
+    #     total_axis_deaths = "**Axis Deaths:** " + str(sum(axis_death_dict.values())) + " "
+    #     total_allied_deaths = "| **Allied Deaths:** " + str(sum(allied_death_dict.values()))
+    #     total_axis_wins = "| **Axis Wins:** " + str(axis_wins_sum) + "  "
+    #     total_allied_wins = "  **Allied Wins:** " + str(allied_wins_sum) + " "
 
-        wareffort_message = total_axis_deaths + total_axis_wins + win_infographic + total_allied_wins + total_allied_deaths
+    #     wareffort_message = total_axis_deaths + total_axis_wins + win_infographic + total_allied_wins + total_allied_deaths
 
-        await message.channel.send(wareffort_message)
+    #     await message.channel.send(wareffort_message)
     
 
     # -------------------------------------------------------------------------------------------------------
@@ -567,13 +567,21 @@ async def on_message(message):
         addme_cmd = "!addme (ROID)         - Adds you to the bot's database, 1-time command."
         stats_cmd = "!stats                - Displays your general stats."
         ffstats_cmd = "!ffstats              - Displays your friendly-fire stats."
-        mapstats_cmd = "!map stats (map_name) - Displays stats for a given map"
-        wareffort_cmd = "!wareffort            - Displays the progress of the war."
+        mapstats_cmd = "!map stats (map_name) - Displays stats for a given map."
+        #wareffort_cmd = "!wareffort            - Displays the progress of the war."
         servers_cmd = "!servers              - Displays real-time server-pop and the map being played."
+        info_cmd = "!info                 - DM's some short info about Statsbot"
 
-        cmds_message = "```" + addme_cmd + "\n" + stats_cmd + "\n" + ffstats_cmd + "\n" + mapstats_cmd + "\n" + wareffort_cmd + "\n" + servers_cmd + "```"
+        cmds_message = "```" + addme_cmd + "\n" + stats_cmd + "\n" + ffstats_cmd + "\n" + mapstats_cmd + "\n" + servers_cmd + "\n" + info_cmd + "```"
 
         await message.channel.send(cmds_message)
+    
+    elif "!info" in message.content.lower():
+        contact_info = "DH-Statsbot is developed and maintained by Chaussettes#8027. All questions can be happily routed to them, they are always happy to help out."
+        github_info = "The code for Statsbot is hosted on github, here you can find more info about it and read some general disclaimers:"
+        github_link = "https://github.com/Chaussettes99/DH-Statsbot"
+
+        await message.author.send(contact_info + "\n" + github_info + "\n" + github_link)
 
     statusUpdate.start()
 
