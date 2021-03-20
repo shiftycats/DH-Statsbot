@@ -15,6 +15,8 @@ Typically every couple months I try to add a new feature to statsbot. As of now,
 
 DISCLAIMER FOR USERS - Due to some unreliability with the Darklight Games stats website currently, user-stats are not 100% accurate. This is an issue that the Darklight Games developers are aware of and have stated will be fixed at some point in the future.
 
+While this is exclusively a one-man-project at the moment, I will be making an effort to open issues and projects here on the repository about what my plans are for the bot and what is being done. Anyone is, of course, free to comment on anything via an issue to help out.
+
 --
 
 The current external modules used are:
