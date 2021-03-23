@@ -20,9 +20,9 @@ While this is exclusively a one-man-project at the moment, I will be making an e
 --
 
 The current external modules used are:
-* Discord.py
-* BeautifulSoup
-* Tabulate
+* [Discord.py](https://pypi.org/project/discord.py/)
+* [BeautifulSoup](https://pypi.org/project/beautifulsoup4/)
+* [Tabulate](https://pypi.org/project/tabulate/)
 
 I maintain and host statsbot on my computer for the Darkest Hour discord. No responsibility should fall to the DH developers or Darklight Games should statsbot stop working, this is all my personal project for the community.
 
