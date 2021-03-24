@@ -10,99 +10,59 @@ from d_weapons import dh_weps
 
 # This function displays general stats to the user (kills, deaths, kdr, etc.)
 def userStats(user_dict, user_id):
-    if user_id in user_dict:
-        user_roid = user_dict[user_id]
+    user_roid = user_dict[user_id]
 
-        stats_url = "http://api.darklightgames.com/players/" + user_roid + "/?format=json"
+    stats_url = "http://api.darklightgames.com/players/" + user_roid + "/?format=json"
 
-        # Opens a user's page on the stats website and grabs their stats (kills, deaths, etc)
-        stats_data = urllib.request.urlopen(stats_url)
-        stats_contents = stats_data.read()
-        load_stats = json.loads(stats_contents)
+    # Opens a user's page on the stats website and grabs their stats (kills, deaths, etc)
+    stats_data = urllib.request.urlopen(stats_url)
+    stats_contents = stats_data.read()
+    load_stats = json.loads(stats_contents)
 
-        weapon_url =  "http://46.101.44.19/players/damage_type_kills/?format=json&killer_id=" + user_roid + \
-                        "&limit=10&offset=0"
-        
-        # Opens a user's weapon data file and loads it's contents
-        weapon_data = urllib.request.urlopen(weapon_url)
-        weapon_contents = weapon_data.read()
-        weapon_list = str(weapon_contents).split("{")
+    weapon_url =  "http://46.101.44.19/players/damage_type_kills/?format=json&killer_id=" + user_roid + \
+                    "&limit=10&offset=0"
+    
+    # Opens a user's weapon data file and loads it's contents
+    weapon_data = urllib.request.urlopen(weapon_url)
+    weapon_contents = weapon_data.read()
+    weapon_list = str(weapon_contents).split("{")
 
-        # Getting a user's favorite weapon and kill count with said weapon
-        top_weapon = weapon_list[2]
-        split_list = top_weapon.split(",")
-        trimmed_list = [element.strip("}") for element in split_list]
-        del trimmed_list[-1]
+    # Getting a user's favorite weapon and kill count with said weapon
+    top_weapon = weapon_list[2]
+    split_list = top_weapon.split(",")
+    trimmed_list = [element.strip("}") for element in split_list]
+    del trimmed_list[-1]
 
-        stat_dict = {}
+    stat_dict = {}
 
-        for element in trimmed_list:
-            (key, val) = element.split(":")
-            stat_dict[key] = val
+    for element in trimmed_list:
+        (key, val) = element.split(":")
+        stat_dict[key] = val
 
-        # Reads a user's top damage type and associates it with a weapon name
-        dam_type = stat_dict['"damage_type_id"']
-        ref_weapon = dh_weps[dam_type]
+    # Reads a user's top damage type and associates it with a weapon name
+    dam_type = stat_dict['"damage_type_id"']
+    ref_weapon = dh_weps[dam_type]
 
-        fav_weapon = "**Favorite Weapon:** " + ref_weapon + " at " + \
-                    stat_dict['"kills"'] + " kills"
-        
-        # Constructing the user's stats for display in Discord
-        s_kills = "**Kills:** " + str(load_stats["kills"]) + " "
+    fav_weapon = "**Favorite Weapon:** " + ref_weapon + " at " + \
+                stat_dict['"kills"'] + " kills"
+    
+    # Constructing the user's stats for display in Discord
+    s_kills =  str(load_stats["kills"])
+    deaths =  str(load_stats["deaths"])
+    raw_kdr = str(load_stats["kills"] / load_stats["deaths"])
+    kdr =  str(raw_kdr[0:4])
 
-        deaths = "| **Deaths:** " + str(load_stats["deaths"]) + " "
+    # Move decimal-points over 2 places for TK-ratio.
+    raw_tk_ratio = int(load_stats["ff_kills"]) / int(load_stats["kills"])
+    tk_ratio = raw_tk_ratio * 10 * 10
 
-        raw_kdr = str(load_stats["kills"] / load_stats["deaths"])
+    ff_kills =  str(load_stats["ff_kills"])
+    ff_deaths =  str(load_stats["ff_deaths"])
+    formatted_tk_ratio = "{:.2f}".format(tk_ratio) + "%"
 
-        kdr = "| **Kill-Death Ratio:** " + str(raw_kdr[0:4]) + " "
+    components = [s_kills, deaths, kdr, fav_weapon, ff_kills, ff_deaths, formatted_tk_ratio]
 
-        msg = " " + s_kills + deaths + kdr + "| " + fav_weapon
-
-        return msg
-
-    elif user_id not in user_dict:
-        msg = "You do not exist in my storage, make sure you added yourself first." + "\n" + "Use `!commands` to see a list of commands."
-
-        return msg
-
-
-# This function displays friendly-fire related stats to the user.
-def ffStats(user_dict, user_id):
-    if user_id in user_dict:
-        user_roid = user_dict[user_id]
-
-        stats_url = "http://api.darklightgames.com/players/" + user_roid + "/?format=json"
-
-        stats_data = urllib.request.urlopen(stats_url)
-        stats_contents = stats_data.read()
-        load_stats = json.loads(stats_contents)
-
-        ff_kills = "**FF Kills:** " + str(load_stats["ff_kills"]) + " "
-        
-        ff_deaths = "| **FF Deaths:** " + str(load_stats["ff_deaths"]) + " "
-
-        raw_tk_ratio = int(load_stats["ff_kills"]) / int(load_stats["kills"])
-
-        raw_death_ratio = int(load_stats["ff_deaths"]) / int(load_stats["deaths"])
-
-        # Calculate teamkill and teamkill-death average.
-        tk_rate = int(load_stats["kills"]) / int(load_stats["ff_kills"])
-        death_rate = int(load_stats["deaths"]) / int(load_stats["ff_deaths"])
-
-        # Move decimal-points over 2 places.
-        tk_ratio = raw_tk_ratio * 10 * 10
-        death_ratio = raw_death_ratio * 10 * 10
-
-        formatted_tk_rate = "*(1 TK every {:.0f}*".format(tk_rate) + " *kills)*  "
-        formatted_death_rate = "*(TK'd once every {:.0f}*".format(death_rate) + " *deaths)*"
-
-        formatted_tk_ratio = "| **TK Ratio:** {:.2f}".format(tk_ratio) + "% " + formatted_tk_rate
-
-        formatted_death_ratio = "| **Death Ratio:** {:.2f}".format(death_ratio) + "% " + formatted_death_rate
-
-        msg = " " + ff_kills + ff_deaths + formatted_tk_ratio + formatted_death_ratio
-
-        return msg
+    return components
 
 
 # This function fetches the stats for the map and gamemode the user has selected.

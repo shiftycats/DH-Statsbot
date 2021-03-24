@@ -75,17 +75,47 @@ async def on_message(message):
                 await message.channel.send("You have been added.")
 
 
+    # Builds and sends a large embedded reply with all user stats.
     elif "!stats" in message.content.lower():
-        msg = stats.userStats(user_dict, user_id)
+        if user_id in user_dict:
+            components = stats.userStats(user_dict, user_id)
 
-        await message.channel.send(message.author.mention + msg)
+            kills = components[0]
+            deaths = components[1]
+            kdr = components[2]
+            weapon = components[3]
+            tk_kills = components[4]
+            tk_deaths = components[5]
+            tk_ratio = components[6]
 
+            user_nick = message.author.display_name
+            pfp = message.author.avatar_url
 
-    elif "!ffstats" in message.content.lower():
-        msg = stats.ffStats(user_dict, user_id)
+            stats_embed = discord.Embed(
+                title = "Stats for " + user_nick,
+                color = discord.Colour.blue()
+            )
 
-        await message.channel.send(message.author.mention + msg)
-    
+            stats_embed.add_field(name="Kills", value=kills, inline=True)
+            stats_embed.add_field(name="Deaths", value=deaths, inline=True)
+            stats_embed.add_field(name="KDR", value=kdr, inline=True)
+            stats_embed.add_field(name=weapon, value="\u200b", inline=False)
+
+            stats_embed.add_field(name="FF Kills", value=tk_kills, inline=True)
+            stats_embed.add_field(name="FF Deaths", value=tk_deaths, inline=True)
+            stats_embed.add_field(name="TK Ratio", value=tk_ratio, inline=True)
+
+            stats_embed.set_footer(text="stats.darklightgames.com")
+            stats_embed.set_thumbnail(url=pfp)
+
+            await message.channel.send(embed=stats_embed)
+        
+        elif user_id not in user_dict:
+            msg = " You do not exist in my storage! Please make sure you added yourself first!"
+            cmd_msg = "Use `!commands` to see a list of commands."
+
+            await message.channel.send(message.author.mention + msg + "\n" + cmd_msg)
+
 
     elif message.content.startswith("!map stats"):
         global in_progress
@@ -111,7 +141,7 @@ async def on_message(message):
                 await message.channel.send(message.author.mention + msg)
         elif in_progress == 1:
             await message.channel.send(message.author.mention + " The command is waiting for a reply first, please make a selection (1-4).")
-
+    
 
     elif "1" in message.content and in_progress == 1:
         mode_selection = maps_temp[int(message.content) - 1]
@@ -173,14 +203,12 @@ async def on_message(message):
 
     elif "!commands" in message.content.lower():
         addme_cmd = "!addme (ROID)         - Adds you to the bot's database, 1-time command."
-        stats_cmd = "!stats                - Displays your general stats."
-        ffstats_cmd = "!ffstats              - Displays your friendly-fire stats."
-        mapstats_cmd = "!map stats (map_name) - Displays stats for a given map."
-        #wareffort_cmd = "!wareffort            - Displays the progress of the war."
+        stats_cmd = "!stats                - Displays your stats."
+        mapstats_cmd = "!map stats (map name) - Displays stats for a given map."
         servers_cmd = "!servers              - Displays real-time server-pop and the map being played."
         info_cmd = "!info                 - DM's some short info about Statsbot"
 
-        cmds_message = "```" + addme_cmd + "\n" + stats_cmd + "\n" + ffstats_cmd + "\n" + mapstats_cmd + "\n" + servers_cmd + "\n" + info_cmd + "```"
+        cmds_message = "```" + addme_cmd + "\n" + stats_cmd + "\n" + mapstats_cmd + "\n" + servers_cmd + "\n" + info_cmd + "```"
 
         await message.channel.send(cmds_message)
 

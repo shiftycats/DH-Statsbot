@@ -11,7 +11,7 @@ dh_weps = {
     '"DH_BARDamType"'                   : "BAR",
     '"DH_ThompsonDamType"'              : "Thompson SMG",
     '"DH_MG42DamType"'                  : "MG 42",
-    '"DH_Kar98DamType"'                 : "Kar 98",
+    '"DH_Kar98DamType"'                 : "Kar 98k",
     '"DH_M1GarandDamType"'              : "M1 Garand",
     '"DH_StenMkIIDamType"'              : "Sten Mk. II",
     '"DH_STG44DamType"'                 : "STG 44",
