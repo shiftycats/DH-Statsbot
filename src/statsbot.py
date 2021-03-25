@@ -17,6 +17,7 @@ in_progress = 0
 map_name = None
 maps_temp = None
 
+
 # Task-loop to update info about game servers.
 @tasks.loop(minutes=2)
 async def statusUpdate():
@@ -42,11 +43,13 @@ async def statusUpdate():
     else:
         await my_last_message.edit(content=servers_content)
 
+
 # Display message to the terminal when bot is connected to Discord
 @client.event
 async def on_ready():
     print(f"{client.user} has connected to Discord!")
     statusUpdate.start()
+
 
 @client.event
 async def on_message(message):
@@ -69,10 +72,7 @@ async def on_message(message):
 
     # Adding a user's ID and provided ROID to users.txt
     if "!addme" in message.content.lower():
-        if len(message.content) > 24:
-            await message.channel.send("Please provide a valid ROID with the command.")
-        
-        elif len(message.content) < 24:
+        if len(message.content) != 24:
             await message.channel.send("Please provide a valid ROID with the command.")
         
         elif len(message.content) == 24:
@@ -162,7 +162,46 @@ async def on_message(message):
 
 
     # Check if the bot is waiting for a reply and the if user gives an appropiate answer.
-    elif int(message.content) in range(1, 5) and in_progress == 1:
+    elif "1" in message.content and in_progress == 1:
+        mode_selection = maps_temp[int(message.content) - 1]
+
+        prefix = map_name
+        msg = stats.mapStats(mode_selection)
+
+        in_progress -= 1
+        map_name = None
+        maps_temp = None
+
+        await message.channel.send(prefix + "\n" + msg)
+    
+    
+    elif "2" in message.content and in_progress == 1:
+        mode_selection = maps_temp[int(message.content) - 1]
+
+        prefix = map_name
+        msg = stats.mapStats(mode_selection)
+
+        in_progress -= 1
+        map_name = None
+        maps_temp = None
+
+        await message.channel.send(prefix + "\n" + msg)
+    
+    
+    elif "3" in message.content and in_progress == 1:
+        mode_selection = maps_temp[int(message.content) - 1]
+
+        prefix = map_name
+        msg = stats.mapStats(mode_selection)
+
+        in_progress -= 1
+        map_name = None
+        maps_temp = None
+
+        await message.channel.send(prefix + "\n" + msg)
+    
+    
+    elif "4" in message.content and in_progress == 1:
         mode_selection = maps_temp[int(message.content) - 1]
 
         prefix = map_name
@@ -175,20 +214,13 @@ async def on_message(message):
         await message.channel.send(prefix + "\n" + msg)
 
 
-    elif "!servers" in message.content.lower():
-        output = servers.serverList()
-
-        await message.channel.send("```" + output + "```")
-
-
     elif "!commands" in message.content.lower():
         addme_cmd = "!addme (ROID)         - Adds you to the bot's database, 1-time command."
         stats_cmd = "!stats                - Displays your stats."
         mapstats_cmd = "!map stats (map name) - Displays stats for a given map."
-        servers_cmd = "!servers              - Displays real-time server-pop and the map being played."
         info_cmd = "!info                 - DM's some short info about Statsbot"
 
-        cmds_message = "```" + addme_cmd + "\n" + stats_cmd + "\n" + mapstats_cmd + "\n" + servers_cmd + "\n" + info_cmd + "```"
+        cmds_message = "```" + addme_cmd + "\n" + stats_cmd + "\n" + mapstats_cmd + "\n" + info_cmd + "```"
 
         await message.channel.send(cmds_message)
 

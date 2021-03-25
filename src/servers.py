@@ -23,10 +23,6 @@ def pingServers():
         table_data.append(td.text.strip())
     for td in rows[3].find_all("td"):
         table_data.append(td.text.strip())
-    for td in rows[4].find_all("td"):
-        table_data.append(td.text.strip())
-    for td in rows[5].find_all("td"):
-        table_data.append(td.text.strip())
 
     return table_data
 
@@ -39,17 +35,13 @@ def statusUpdate():
     count_1 = table_data[3]
     count_2 = table_data[11]
     count_3 = table_data[19]
-    count_4 = table_data[27]
-    count_5 = table_data[35]
 
     # Cut-off the uneeded "/64" part.
     component_1 = str(count_1[:-3])
     component_2 = str(count_2[:-3])
     component_3 = str(count_3[:-3])
-    component_4 = str(count_4[:-3])
-    component_5 = str(count_5[:-3])
 
-    total_playercount = int(component_1) + int(component_2) + int(component_3) + int(component_4) + int(component_5)
+    total_playercount = int(component_1) + int(component_2) + int(component_3)
 
     status_message = str(total_playercount) + " players playing"
 
@@ -63,9 +55,7 @@ def serverList():
     # Format the data we want (server name, pop, map) into a new list for printing.
     formatted_table = [[table_data[2], table_data[3], table_data[7]],
                         [table_data[10], table_data[11], table_data[15]],
-                        [table_data[18], table_data[19], table_data[23]],
-                        [table_data[26], table_data[27], table_data[31]],
-                        [table_data[34], table_data[35], table_data[39]]
+                        [table_data[18], table_data[19], table_data[23]]
     ]
 
     formatted_output = tabulate(formatted_table, tablefmt="plain")

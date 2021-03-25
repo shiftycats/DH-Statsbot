@@ -136,7 +136,7 @@ def mapSearch(user_string):
     map_dict_3 = d_maps.clash_dict
     map_dict_4 = d_maps.arm_dict
 
-    if selected_map in map_dict_1 or selected_map in map_dict_2 or selected_map in map_dict_3 or selected_map in map_dict_4:
+    if any(selected_map in item for item in [map_dict_1, map_dict_2, map_dict_3, map_dict_4]):
         adv_string = None
         push_string = None
         clash_string = None
@@ -194,7 +194,7 @@ def mapSearch(user_string):
         
         return options_msg, selected_map, map_list, response_flag
   
-    elif selected_map not in map_dict_1 or selected_map not in map_dict_2 or selected_map not in map_dict_3 or selected_map not in map_dict_4:
+    else:
         msg = " That map does not exist or you may have typed it wrong, try again!"
         map_list = None
         response_flag = 1
