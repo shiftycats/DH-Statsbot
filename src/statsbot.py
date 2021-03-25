@@ -2,12 +2,14 @@ import os
 import discord
 from dotenv import load_dotenv
 from discord.ext import tasks
+from datetime import datetime
 
 import servers
 import stats
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
+SERVERS_CHANNEL_ID = int(os.getenv("SERVERS_CHANNEL_ID"))
 client = discord.Client()
 
 # Variables used to keep track of selecting a map with the !map stats command.
@@ -15,19 +17,36 @@ in_progress = 0
 map_name = None
 maps_temp = None
 
-# Task-loop to update the bot's status-message with the current playercount.
+# Task-loop to update info about game servers.
 @tasks.loop(minutes=2)
 async def statusUpdate():
+    # Update player count status.
     playercount = servers.statusUpdate()
 
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=playercount))
 
+    # Update server info channel.
+    servers_channel = client.get_channel(SERVERS_CHANNEL_ID)
+
+    try:
+        my_last_message = await servers_channel.history().find(lambda m: m.author.id == client.user.id)
+    except AttributeError:
+        print("Failed to access servers channel", SERVERS_CHANNEL_ID);
+        return
+
+    timestamp = datetime.utcnow().strftime("Last updated: %b %d, %I:%M:%S %p UTC")
+    servers_content = "`" + timestamp + "`\n```" + servers.serverList() + "```\n"
+
+    if not my_last_message:
+        await servers_channel.send(servers_content)
+    else:
+        await my_last_message.edit(content=servers_content)
 
 # Display message to the terminal when bot is connected to Discord
 @client.event
 async def on_ready():
     print(f"{client.user} has connected to Discord!")
-
+    statusUpdate.start()
 
 @client.event
 async def on_message(message):
@@ -180,8 +199,5 @@ async def on_message(message):
         github_link = "https://github.com/Chaussettes99/DH-Statsbot"
 
         await message.author.send(contact_info + "\n" + github_info + "\n" + github_link)
-
-
-    statusUpdate.start()
 
 client.run(TOKEN)
