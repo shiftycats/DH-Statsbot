@@ -100,7 +100,6 @@ async def on_message(message):
             stats_embed.add_field(name="Deaths", value=deaths, inline=True)
             stats_embed.add_field(name="KDR", value=kdr, inline=True)
             stats_embed.add_field(name=weapon, value="\u200b", inline=False)
-
             stats_embed.add_field(name="FF Kills", value=tk_kills, inline=True)
             stats_embed.add_field(name="FF Deaths", value=tk_deaths, inline=True)
             stats_embed.add_field(name="TK Ratio", value=tk_ratio, inline=True)
@@ -141,48 +140,10 @@ async def on_message(message):
                 await message.channel.send(message.author.mention + msg)
         elif in_progress == 1:
             await message.channel.send(message.author.mention + " The command is waiting for a reply first, please make a selection (1-4).")
-    
-
-    elif "1" in message.content and in_progress == 1:
-        mode_selection = maps_temp[int(message.content) - 1]
-
-        prefix = map_name
-        msg = stats.mapStats(mode_selection)
-
-        in_progress -= 1
-        map_name = None
-        maps_temp = None
-
-        await message.channel.send(prefix + "\n" + msg)
-    
-
-    elif "2" in message.content and in_progress == 1:
-        mode_selection = maps_temp[int(message.content) - 1]
-
-        prefix = map_name
-        msg = stats.mapStats(mode_selection)
-
-        in_progress -= 1
-        map_name = None
-        maps_temp = None
-
-        await message.channel.send(prefix + "\n" + msg)
 
 
-    elif "3" in message.content and in_progress == 1:
-        mode_selection = maps_temp[int(message.content) - 1]
-
-        prefix = map_name
-        msg = stats.mapStats(mode_selection)
-
-        in_progress -= 1
-        map_name = None
-        maps_temp = None
-
-        await message.channel.send(prefix + "\n" + msg)
-
-
-    elif "4" in message.content and in_progress == 1:
+    # Check if the bot is waiting for a reply and the if user gives an appropiate answer.
+    elif int(message.content) in range(1, 5) and in_progress == 1:
         mode_selection = maps_temp[int(message.content) - 1]
 
         prefix = map_name
