@@ -8,23 +8,27 @@ from tabulate  import tabulate
 
 # Ping the gametracker webpage for server-info.
 def pingServers():
-    gametracker_url = "https://www.gametracker.com/search/rordh/"
-    gametracker_raw = requests.get(gametracker_url)
+    try:
+        gametracker_url = "https://www.gametracker.com/search/rordh/"
+        gametracker_raw = requests.get(gametracker_url)
 
-    soup = BeautifulSoup(gametracker_raw.content, "html.parser")
+        soup = BeautifulSoup(gametracker_raw.content, "html.parser")
 
-    table = soup.find("table", attrs={"class":"table_lst table_lst_srs"})
-    rows = table.find_all("tr")
+        table = soup.find("table", attrs={"class":"table_lst table_lst_srs"})
+        rows = table.find_all("tr")
 
-    table_data = []
-    for td in rows[1].find_all("td"):
-        table_data.append(td.text.strip())
-    for td in rows[2].find_all("td"):
-        table_data.append(td.text.strip())
-    for td in rows[3].find_all("td"):
-        table_data.append(td.text.strip())
+        table_data = []
+        for td in rows[1].find_all("td"):
+            table_data.append(td.text.strip())
+        for td in rows[2].find_all("td"):
+            table_data.append(td.text.strip())
+        for td in rows[3].find_all("td"):
+            table_data.append(td.text.strip())
 
-    return table_data
+        return table_data
+    except requests.exceptions.ConnectionError:
+        print("Failed connecting to https://www.gametracker.com/search/rordh/")
+        return
 
 
 # Update the bot's status message with the total playercount.
