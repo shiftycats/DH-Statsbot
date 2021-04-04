@@ -162,3 +162,9 @@ arm_dict = {
     "Tractable"              : "DH-Armored_Tractable_Advance",
     "Voronezh"               : "DH-Armored_Voronezh_Clash"
 }
+
+def_dict = {
+    "Flakturm Tiergarten" : "DH-Flakturm_Tiergarten_Defence",
+    "Krasnyi Oktyabr"     : "DH-Krasnyi_Oktyabr_Defence",
+    "Lyes Krovy"          : "DH-Lyes_Krovy_Defence"
+}
