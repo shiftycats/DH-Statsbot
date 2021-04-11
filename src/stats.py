@@ -136,19 +136,22 @@ def mapSearch(user_string):
     map_dict_3 = d_maps.clash_dict
     map_dict_4 = d_maps.arm_dict
     map_dict_5 = d_maps.def_dict
+    map_dict_6 = d_maps.stalemate_dict
 
-    if any(selected_map in item for item in [map_dict_1, map_dict_2, map_dict_3, map_dict_4, map_dict_5]):
+    if any(selected_map in item for item in [map_dict_1, map_dict_2, map_dict_3, map_dict_4, map_dict_5, map_dict_6]):
         adv_string = None
         push_string = None
         clash_string = None
         arm_string = None
         def_string = None
+        stalemate_string = None
 
         adv_flag = 0
         push_flag = 0
         clash_flag = 0
         arm_flag = 0
         def_flag = 0
+        stalemate_flag = 0
 
         # Check each dict for the map name, set it's flag to 1 if it is found.
         if selected_map in map_dict_1:
@@ -166,6 +169,9 @@ def mapSearch(user_string):
         if selected_map in map_dict_5:
             def_string = map_dict_5[selected_map]
             def_flag += 1
+        if selected_map in map_dict_6:
+            stalemate_string = map_dict_6[selected_map]
+            stalemate_flag += 1
         
         choice_list = []
         options_msg = ""
@@ -187,6 +193,9 @@ def mapSearch(user_string):
         if def_flag == 1:
             choice_list.append("Defense | ")
             map_list.append(def_string)
+        if stalemate_flag == 1:
+            choice_list.append("Stalemate | ")
+            map_list.append(stalemate_string)
 
         idx = 0
 

@@ -1,7 +1,3 @@
-# This file contains dictionaries containing the names of various DH maps.
-# These are seperated into "Advance", "Push", "Clash", and "Armored" dicts
-# to easily seperate and work with each game mode individually.
-
 adv_dict = {
     "Battle In House"    : "DH-BattleInHouse_Advance",
     "Berezina"           : "DH-Berezina_Advance",
@@ -167,4 +163,10 @@ def_dict = {
     "Flakturm Tiergarten" : "DH-Flakturm_Tiergarten_Defence",
     "Krasnyi Oktyabr"     : "DH-Krasnyi_Oktyabr_Defence",
     "Lyes Krovy"          : "DH-Lyes_Krovy_Defence"
+}
+
+stalemate_dict = {
+    "Bridge Assault" : "DH-Bridge_Assault_Stalemate",
+    "Donner"         : "DH-Donner_Stalemate",
+    "Grey Ghosts"    : "DH-Grey_Ghosts_Of_War_Stalemate"
 }
