@@ -236,11 +236,11 @@ async def on_message(message):
             color = discord.Colour.blue()
         )
 
-        cmds_embed.add_field(name="!addme (ROID):", value="Adds you to the bot's storage. [Tutorial here](https://github.com/Chaussettes99/DH-Statsbot/wiki/Adding-yourself-to-Statsbot)", inline=False)
-        cmds_embed.add_field(name="!removeme:", value="Removes you from the bot's storage.", inline=False)
-        cmds_embed.add_field(name="!stats:", value="Displays your stats.", inline=False)
-        cmds_embed.add_field(name="!map stats (map name):", value="Displays stats for a given map.", inline=False)
-        cmds_embed.add_field(name="!info:", value="DM's some short info about Statsbot.", inline=False)
+        cmds_embed.add_field(name="!addme (ROID)", value="Adds you to the bot's storage. [Tutorial here](https://github.com/Chaussettes99/DH-Statsbot/wiki/Adding-yourself-to-Statsbot)", inline=False)
+        cmds_embed.add_field(name="!removeme", value="Removes you from the bot's storage.", inline=False)
+        cmds_embed.add_field(name="!stats", value="Displays your stats.", inline=False)
+        cmds_embed.add_field(name="!map stats (map name)", value="Displays stats for a given map.", inline=False)
+        cmds_embed.add_field(name="!info", value="DM's some short info about Statsbot.", inline=False)
 
         await message.channel.send(embed=cmds_embed)
 
