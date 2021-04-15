@@ -80,7 +80,7 @@ async def on_message(message):
 
             # Check if they already exist in users.txt
             if user_id in user_dict:
-                await message.channel.send("You already exist in my database.")
+                await message.channel.send("You already exist within my storage.")
             
             elif user_id not in user_dict:
                 userfile = open("users.txt", "a")
@@ -92,6 +92,24 @@ async def on_message(message):
 
                 print("Added a new user")
                 await message.channel.send("You have been added.")
+
+
+    # Command for a user to remove themselves from the userfile.
+    elif "!removeme" in message.content.lower():
+        if user_id in user_dict:
+            u_roid = user_dict[user_id]
+
+            with open("users.txt", "r+") as f:
+                new_f = f.readlines()
+                f.seek(0)
+                for line in new_f:
+                    if user_id not in line:
+                        f.write(line)
+                f.truncate()
+
+            await message.channel.send("You have been removed from my storage.")
+        elif user_id not in user_dict:
+            await message.channel.send("You do not exist within my storage.")
 
 
     # Builds and sends a large embedded reply with all user stats.
@@ -215,14 +233,18 @@ async def on_message(message):
 
 
     elif "!commands" in message.content.lower():
-        addme_cmd = "!addme (ROID)         - Adds you to the bot's database, 1-time command."
-        stats_cmd = "!stats                - Displays your stats."
-        mapstats_cmd = "!map stats (map name) - Displays stats for a given map."
-        info_cmd = "!info                 - DM's some short info about Statsbot"
+        cmds_embed = discord.Embed(
+            title = "Statsbot Commands",
+            color = discord.Colour.blue()
+        )
 
-        cmds_message = "```" + addme_cmd + "\n" + stats_cmd + "\n" + mapstats_cmd + "\n" + info_cmd + "```"
+        cmds_embed.add_field(name="!addme (ROID):", value="Adds you to the bot's storage. [Tutorial here](https://github.com/Chaussettes99/DH-Statsbot/wiki/Adding-yourself-to-Statsbot)", inline=False)
+        cmds_embed.add_field(name="!removeme:", value="Removes you from the bot's storage.", inline=False)
+        cmds_embed.add_field(name="!stats:", value="Displays your stats.", inline=False)
+        cmds_embed.add_field(name="!map stats (map name):", value="Displays stats for a given map.", inline=False)
+        cmds_embed.add_field(name="!info:", value="DM's some short info about Statsbot.", inline=False)
 
-        await message.channel.send(cmds_message)
+        await message.channel.send(embed=cmds_embed)
 
 
     elif "!info" in message.content.lower():
