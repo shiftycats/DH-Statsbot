@@ -97,8 +97,6 @@ async def on_message(message):
     # Command for a user to remove themselves from the userfile.
     elif "!removeme" in message.content.lower():
         if user_id in user_dict:
-            u_roid = user_dict[user_id]
-
             with open("users.txt", "r+") as f:
                 new_f = f.readlines()
                 f.seek(0)
