@@ -47,7 +47,10 @@ def statusUpdate():
 
     total_playercount = int(component_1) + int(component_2) + int(component_3)
 
-    status_message = str(total_playercount) + " players playing"
+    status_message = (str(total_playercount)
+                      + " player"
+                      + ("" if total_playercount == 1 else "s")
+                      + " online")
 
     return status_message
 
