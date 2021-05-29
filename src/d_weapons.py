@@ -31,7 +31,7 @@ dh_weps = {
     '"DH_SpringfieldScopedDamType"'     : "Springfield M1903",
     '"DH_PPS43DamType"'                 : "PPS-43",
     '"DH_FG42DamType"'                  : "FG42",
-    '"DH_Kar98ScopedDamType"'           : "Scoped Kar98",
+    '"DH_Kar98ScopedDamType"'           : "Scoped Kar 98k",
     '"DH_50CalDamType"'                 : "50 Cal. MG",
     '"DH_P38DamType"'                   : "Walther P38",
     '"DH_G41DamType"'                   : "Gewehr 41",
