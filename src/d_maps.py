@@ -26,6 +26,7 @@ adv_dict = {
     "Noville"            : "DH-Noville_Advance",
     "Olkhovatka"         : "DH-Olkhovatka_Advance",
     "Oosterbeek"         : "DH-Oosterbeek_Advance",
+    "Pegasus Bridge"     : "DH-Pegasus_Bridge_Advance",
     "Poteau Ambush"      : "DH-Poteau_Ambush_Advance",
     "Putot En Bessin"    : "DH-Putot-en-Bessin_Advance",
     "Rabenheck"          : "DH-Rabenheck_Advance",
