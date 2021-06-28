@@ -45,6 +45,7 @@ dh_weps = {
     '"DH_Nagant1895DamType"'            : "Nagant 1895",
     '"DH_M44DamType"'                   : "MN-M44 Carbine",
     '"DH_MN9130ScopedDamType"'          : "Scoped MN-9130",
+    '"DH_EnfieldNo4ScopedDamType"'      : "Scoped Enfield",
     '"DH_BazookaImpactDamType"'         : "Bazooka",
     '"DH_PanzerschreckImpactDamType"'   : "Panzerschreck",
     '"DH_PanzerFaustImpactDamType"'     : "Panzerfaust",
